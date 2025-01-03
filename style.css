@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  flex-direction: column;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #4b4453;
+  color: #ddd;
+}
+
+.container {
+  width: 800px;
+  height: 500px;
+}
+#canvas1 {
+  width: 800px;
+  height: 500px;
+  border: 1px solid black;
+  background: linear-gradient(to bottom, lightblue, darkblue);
+}
