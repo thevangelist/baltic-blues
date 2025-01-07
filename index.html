@@ -12,12 +12,31 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-stone-800">
-  <h1 class="text-5xl py-10 text-orange-400 uppercase">Anchor Down!</h1>
+  <h1 class="text-5xl py-10 text-orange-400 uppercase">Baltic Blues</h1>
+  <p class="font-sans text-center max-w-full w-80 py-5">Slip into the shadows of the Baltic Sea as a daring captain on a secret mission. Your goal? Cut undersea cables while your anchor drags along the sea floor, all without being spotted by vigilant patrols. Keep your anchor up when patrols are close by to avoid detection. Reel your anchor in to stay undetected. Stealth, precision, and strategy are your only allies.</p>
+  <div class="font-mono flex gap-5">
+    <p>→ Forward</p>
+    <p>← Back</p>
+    <p>↓ Lower anchor</p>
+    <p>↑ Reel anchor</p>
+  </div>
   <div class="relative w-[800px] h-[500px]">
     <canvas id="canvas1"></canvas>
     <div id="start" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex justify-center items-center">
       <button class="uppercase bg-sky-400 text-black font-bold py-4 px-8 rounded text-2xl" id="play">Play</button>
     </div>
+    <div id="restart" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex flex-col justify-center items-center">
+      <p className="text-xl uppercase text-orange-300">Game over!</p>
+      <button class="uppercase bg-sky-400 text-black font-bold py-4 px-8 rounded text-2xl" id="replay">Replay</button>
+    </div>
   </div>
+  <audio id="patrolsound" src="patrol.ogg" loop></audio>
+  <audio id="alarm1" src="alarm.ogg"></audio>
+  <audio id="alarm2" src="siren.mp3"></audio>
+  <audio id="winch1" src="winch/2.wav"></audio>
+  <audio id="winch5" src="winch/5.wav"></audio>
+  <audio id="winch8" src="winch/8.wav"></audio>
+  <audio id="scrape7" src="scrapes/scrape-7.wav"></audio>
+  <audio id="ambient" src="ambient.wav" loop></audio>
 </body>
 </html>

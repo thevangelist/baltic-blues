@@ -14,23 +14,6 @@ let warnings = 0;
 const gameSpeed = 1;
 ctx.font = '24px sans-serif'
 
-const patrolsound = document.createElement('audio');
-patrolsound.src = 'patrol.ogg';
-const alarm1 = document.createElement('audio');
-alarm1.src = 'alarm.ogg';
-const alarm2 = document.createElement('audio');
-alarm2.src = 'siren.mp3';
-const winch1 = document.createElement('audio');
-winch1.src = 'winch/2.wav'
-const winch5 = document.createElement('audio');
-winch5.src = 'winch/5.wav'
-const winch8 = document.createElement('audio');
-winch8.src = 'winch/8.wav'
-const scrape7 = document.createElement('audio');
-scrape7.src = 'scrapes/scrape-7.wav'
-const ambient = document.createElement('audio');
-ambient.src = 'ambient.wav'
-
 // Mouse interactivity
 let canvasPosition = canvas.getBoundingClientRect();
 const targetPosition = {
@@ -42,12 +25,12 @@ document.addEventListener('keydown', function(e) {
   event.preventDefault();
   // Less anchor chain
   if (e.key === 'ArrowUp') {
-    tanker.chainLength = Math.max(0, tanker.chainLength - 2);
+    tanker.chainLength = Math.max(0, tanker.chainLength - 10);
     winch8.play();
   }
   // More anchor chain
   if (e.key === 'ArrowDown') {
-    tanker.chainLength = Math.min(tanker.chainLength + 7, tanker.chainLengthMax);
+    tanker.chainLength = Math.min(tanker.chainLength + 10, tanker.chainLengthMax);
     winch1.play();
   }
   // Back
@@ -215,7 +198,7 @@ function randomBetween(high, low) {
 }
 
 function createPatrols() {
-  if (gameFrame % randomBetween(6460, 50) === 0) {
+  if (gameFrame % randomBetween(15000, 500) === 0) {
     patrolsArray.push(new Patrol());
     console.log(`Patrol Ship Created! Total: ${patrolsArray.length}`);
   }
@@ -226,7 +209,7 @@ function createPatrols() {
     if(patrolsArray[i].x > 200 && patrolsArray[i].x < 700) {
       patrolsArray[i].setSpeed(0.5)
       if(patrolsArray[i].x > 400 && patrolsArray[i].x < 550) {
-        if(tanker.chainLength > randomBetween(100, 20)) {
+        if(tanker.chainLength > 0) {
           warnings++;
         }
         console.log(warnings)
@@ -251,12 +234,21 @@ function createTanker() {
 class Hud {
   constructor() {
     this.depth = Math.floor(randomBetween(470, 20));
+    this.isAnchorDown = false;
+    this.draggedInMeters = 0;
   }
   update() {
     if(gameFrame % 300 == 0) {
       const oldDepth = this.depth;
       const newDepth = Math.floor((randomBetween(470, 20) + (oldDepth * 5)) / 6);
       this.depth = newDepth
+    }
+    if (gameFrame % 30 == 0) {
+      this.isAnchorDown = tanker.chainLength > this.depth ? true : false
+      if (this.isAnchorDown) {
+        this.draggedInMeters += 10
+        console.log(this.draggedInMeters )
+      }
     }
   }
 }
@@ -267,8 +259,10 @@ function createHud() {
   hud.update();
 }
 
+let animationId;
+
 function animate() {
-  ambient.play();
+  // ambient.play();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   createBackground();
   createHud();
@@ -279,17 +273,27 @@ function animate() {
   ctx.fillText(`Anchor chain ${tanker.chainLength} m`, 10, 30)
   ctx.fillText(`Patrols avoided ${score}`, 10, 60)
   ctx.fillText(`Seabed depth ${hud.depth} m`, 10, 90)
-  requestAnimationFrame(animate)
+  hud.isAnchorDown ? ctx.fillStyle = '#00c9a8' : '#fff'
+  ctx.fillText(`Dragging ${hud.isAnchorDown ? 'yes' : 'no'}`, 10, 120)
+  ctx.fillText(`Dragged distance ${(hud.draggedInMeters / 1000).toFixed(1)} km`, 10, 150)
+  animationId = requestAnimationFrame(animate);
   if (warnings > 1000) {
-    document.getElementById('gameOver').style.display = 'block';
-    return
+    document.getElementById('restart').style.display = 'flex';
+    cancelAnimationFrame(animationId);
   }
 }
 
-animate();
+document.getElementById('restart').style.display = 'none';
 
 document.getElementById('play').addEventListener('click', function() {
   document.getElementById('start').style.display = 'none';
+  animate();
+});
+
+document.getElementById('replay').addEventListener('click', function() {
+  document.getElementById('restart').style.display = 'none';
+  warnings = 0;
+  tanker.chainLength = 0;
   animate();
 });
 

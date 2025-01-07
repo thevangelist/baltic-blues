@@ -5,7 +5,6 @@
 }
 body {
   flex-direction: column;
-  font-family: "Big Shoulders Stencil Text", sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -15,10 +14,15 @@ body {
   color: #ddd;
 }
 
+h1 {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+}
+
 .container {
   width: 800px;
   height: 500px;
 }
+
 #canvas1 {
   width: 800px;
   height: 500px;
