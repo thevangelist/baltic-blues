@@ -29,11 +29,13 @@ document.addEventListener('keydown', function(e) {
   // Less anchor chain
   if (e.key === 'ArrowUp') {
     tanker.chainLength = Math.max(0, tanker.chainLength - 10);
+    winch8.volume = 0.25;
     winch8.play();
   }
   // More anchor chain
   if (e.key === 'ArrowDown') {
     tanker.chainLength = Math.min(tanker.chainLength + 10, tanker.chainLengthMax);
+    winch1.volume = 0.25;
     winch1.play();
   }
   // Back
@@ -173,15 +175,6 @@ class Patrol {
     this.speed = speed
   }
   draw() {
-    // - patrolImage: The image object for the patrol.
-    // - this.frameX * this.spriteWidth: The x-coordinate of the source rectangle in the image.
-    // - this.frameY * this.spriteHeight: The y-coordinate of the source rectangle in the image.
-    // - this.spriteWidth: The width of the source rectangle in the image.
-    // - this.spriteHeight: The height of the source rectangle in the image.
-    // - this.x: The x-coordinate on the canvas where the image will be drawn.
-    // - this.y: The y-coordinate on the canvas where the image will be drawn.
-    // - this.spriteWidth: The width to draw the image on the canvas.
-    // - this.spriteHeight: The height to draw the image on the canvas.
     ctx.drawImage(
       patrolImage,
       this.frameX * this.spriteWidth,
@@ -200,10 +193,13 @@ function randomBetween(high, low) {
   return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
+function createCables() {
+  return
+}
+
 function createPatrols() {
-  if (gameFrame % randomBetween(15000, 500) === 0) {
+  if (gameFrame % randomBetween(9000, 200) === 0) {
     patrolsArray.push(new Patrol());
-    // console.log(`Patrol Ship Created! Total: ${patrolsArray.length}`);
   }
   for (let i = 0; i < patrolsArray.length; i++) {
     // alarm1.play()
@@ -212,10 +208,10 @@ function createPatrols() {
     if(patrolsArray[i].x > 200 && patrolsArray[i].x < 700) {
       patrolsArray[i].setSpeed(0.5)
       if(patrolsArray[i].x > 400 && patrolsArray[i].x < 550) {
-        if(tanker.chainLength > 0) {
+        if(tanker.chainLength != 0) {
           warnings++;
+          console.log(warnings)
         }
-        // console.log(warnings)
         patrolsArray[i].setSpeed(0.3)
       }
     } else {
@@ -261,21 +257,45 @@ function createHud() {
   hud.update();
 }
 
-let animationId;
+function backgroundSounds() {
+  music.volume = 0.75
+  music.play();
 
+  wind1.volume = 0.005
+  wind1.play();
+
+  waves.volume = 0.05
+  waves.play();
+
+  ship.volume = 0.01
+  ship.play();
+}
+
+function randomCreaks() {
+  if (gameFrame % randomBetween(6000, 2000) === 0) {
+    const audioFile = `metal${randomBetween(5, 1)}`;
+    console.log('play ' + audioFile);
+    window[audioFile].volume = 0.1;
+    window[audioFile].play();
+  }
+}
+
+let animationId;
 function animate() {
-  ambient.play();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  backgroundSounds()
+  randomCreaks()
   createBackground();
   createHud();
   createTanker();
   createPatrols();
+  createCables();
   gameFrame++;
   ctx.fillStyle = '#fff'
   ctx.fillText(`Anchor chain ${tanker.chainLength} m`, 10, 30)
   ctx.fillText(`Patrols avoided ${score}`, 10, 60)
   ctx.fillText(`Seabed depth ${hud.depth} m`, 10, 90)
-  hud.isAnchorDown ? ctx.fillStyle = '#00c9a8' : '#fff'
+  hud.isAnchorDown ? ctx.fillStyle = '#9ede7e' : '#fff'
   ctx.fillText(`Dragging ${hud.isAnchorDown ? 'yes' : 'no'}`, 10, 120)
   ctx.fillText(`Dragged distance ${(hud.draggedInMeters / 1000).toFixed(1)} km`, 10, 150)
   animationId = requestAnimationFrame(animate);

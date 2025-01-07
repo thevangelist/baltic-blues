@@ -3,39 +3,71 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Anchor down</title>
+  <title>Baltic Blues</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap" rel="stylesheet">
 </head>
-<body class="bg-stone-800">
-  <h1 class="text-5xl py-10 text-orange-400 uppercase">Baltic Blues</h1>
-  <p class="font-sans text-center max-w-full w-80 py-5">Slip into the shadows of the Baltic Sea as a daring captain on a secret mission. Your goal? Cut undersea cables while your anchor drags along the sea floor, all without being spotted by vigilant patrols. Keep your anchor up when patrols are close by to avoid detection. Reel your anchor in to stay undetected. Stealth, precision, and strategy are your only allies.</p>
-  <div class="font-mono flex gap-5">
+<body class="bg-dark-1">
+  <label class="inline-flex items-center cursor-pointer">
+    <input type="checkbox" value="" class="sr-only peer" id="mute">
+    <div class="relative w-11 h-6 bg-blue-1 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#568099]"></div>
+    <span class="ms-3 text-sm font-medium text-blue-1 dark:text-gray-300">Mute audio</span>
+  </label>
+  <h1 class="text-7xl py-10 text-orange-1 uppercase">Baltic Blues</h1>
+  <p class="text-sm text-info-2 leading-snug italic font-sans text-center max-w-full w-80 py-5">
+    Slip into the shadows of the Baltic Sea<br>
+    as a daring captain on a secret mission.<br><br>
+    Your goal?<br>
+    Cut undersea cables<br>
+    while your anchor drags along the sea floor,<br>
+    all without being spotted<br>
+    by vigilant patrols.<br><br>
+    Keep your anchor up<br>
+    when patrols are close by<br>
+    to avoid detection.<br>
+    Reel your anchor in<br>
+    to stay undetected.<br><br>
+    Stealth, precision, and strategy<br>
+    are your only allies.
+  </p>
+  <div class="relative w-[800px] h-[500px]">
+    <canvas id="game-canvas"></canvas>
+    <div id="start" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex justify-center items-center">
+      <button class="uppercase bg-orange-1 text-black font-bold py-4 px-8 text-3xl" id="play">Play</button>
+    </div>
+    <div id="restart" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex flex-col justify-center items-center">
+      <p class="text-xl uppercase text-info-2 py-2">Game over!</p>
+      <button class="uppercase bg-orange-1 text-black font-bold py-4 px-8 text-3xl" id="replay">Replay</button>
+    </div>
+  </div>
+  <div class="font-sans flex gap-5 text-lg">
     <p>→ Forward</p>
     <p>← Back</p>
     <p>↓ Lower anchor</p>
     <p>↑ Reel anchor</p>
   </div>
-  <div class="relative w-[800px] h-[500px]">
-    <canvas id="game-canvas"></canvas>
-    <div id="start" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex justify-center items-center">
-      <button class="uppercase bg-sky-400 text-black font-bold py-4 px-8 rounded text-2xl" id="play">Play</button>
-    </div>
-    <div id="restart" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex flex-col justify-center items-center">
-      <p className="text-xl uppercase text-orange-300">Game over!</p>
-      <button class="uppercase bg-sky-400 text-black font-bold py-4 px-8 rounded text-2xl" id="replay">Replay</button>
-    </div>
-  </div>
-  <audio id="patrolsound" src="audio/patrol.ogg" loop></audio>
+  <!-- BG-->
+  <audio id="music" src="audio/ambient.wav" loop></audio>
+  <audio id="wind1" src="audio/wind1.wav" loop></audio>
+  <audio id="waves" src="audio/vistula-short.mp3" loop></audio>
+  <!-- Boat effects-->
+  <audio id="ship" src="audio/background_ambience.mp3" loop></audio>
+  <audio id="metal1" src="audio/metal1.mp3"></audio>
+  <audio id="metal2" src="audio/metal2.mp3"></audio>
+  <audio id="metal3" src="audio/metal3.mp3"></audio>
+  <audio id="metal4" src="audio/metal4.mp3"></audio>
+  <audio id="metal5" src="audio/metal5.mp3"></audio>
+  <!-- What license? is used?-->
+  <audio id="patrolsound" src="audio/patrol.ogg"></audio>
   <audio id="alarm1" src="audio/alarm.ogg"></audio>
   <audio id="alarm2" src="audio/siren.mp3"></audio>
   <audio id="winch1" src="audio/winch/2.wav"></audio>
   <audio id="winch5" src="audio/winch/5.wav"></audio>
   <audio id="winch8" src="audio/winch/8.wav"></audio>
   <audio id="scrape7" src="audio/scrapes/scrape-7.wav"></audio>
-  <audio id="ambient" src="audio/ambient.wav" loop></audio>
   <script type="module" src="game.js" defer></script>
+  <script type="module" src="tools.js" defer></script>
 </body>
 </html>
