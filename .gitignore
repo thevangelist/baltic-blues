@@ -1,0 +1,9 @@
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Parcel cache
+.parcel-cache
+
+# node-waf configuration
+node_modules
