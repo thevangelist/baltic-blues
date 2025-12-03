@@ -12,20 +12,26 @@ const TANKER_IMAGE_WIDTH = 344,
 
 let score = 0;
 let gameFrame = 0;
-let gameOver = false;
 let warnings = 0;
 const gameSpeed = 1;
 ctx.font = '24px sans-serif'
 
-// Mouse interactivity
-let canvasPosition = canvas.getBoundingClientRect();
+// Audio elements map
+const audioElements = {
+  metal1: document.getElementById('metal1'),
+  metal2: document.getElementById('metal2'),
+  metal3: document.getElementById('metal3'),
+  metal4: document.getElementById('metal4'),
+  metal5: document.getElementById('metal5')
+};
+
 const targetPosition = {
   x: canvas.width / 2 - (TANKER_IMAGE_WIDTH/2),
   y: canvas.height / 1.5,
 }
 
 document.addEventListener('keydown', function(e) {
-  event.preventDefault();
+  e.preventDefault();
   // Less anchor chain
   if (e.key === 'ArrowUp') {
     tanker.chainLength = Math.max(0, tanker.chainLength - 10);
@@ -193,10 +199,6 @@ function randomBetween(high, low) {
   return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
-function createCables() {
-  return
-}
-
 function createPatrols() {
   if (gameFrame % randomBetween(9000, 200) === 0) {
     patrolsArray.push(new Patrol());
@@ -210,7 +212,6 @@ function createPatrols() {
       if(patrolsArray[i].x > 400 && patrolsArray[i].x < 550) {
         if(tanker.chainLength != 0) {
           warnings++;
-          console.log(warnings)
         }
         patrolsArray[i].setSpeed(0.3)
       }
@@ -273,10 +274,12 @@ function backgroundSounds() {
 
 function randomCreaks() {
   if (gameFrame % randomBetween(6000, 2000) === 0) {
-    const audioFile = `metal${randomBetween(5, 1)}`;
-    console.log('play ' + audioFile);
-    window[audioFile].volume = 0.1;
-    window[audioFile].play();
+    const audioKey = `metal${randomBetween(5, 1)}`;
+    const audio = audioElements[audioKey];
+    if (audio) {
+      audio.volume = 0.1;
+      audio.play();
+    }
   }
 }
 
@@ -289,7 +292,6 @@ function animate() {
   createHud();
   createTanker();
   createPatrols();
-  createCables();
   gameFrame++;
   ctx.fillStyle = '#fff'
   ctx.fillText(`Anchor chain ${tanker.chainLength} m`, 10, 30)
@@ -318,7 +320,3 @@ document.getElementById('replay').addEventListener('click', function() {
   tanker.chainLength = 0;
   animate();
 });
-
-window.addEventListener('resize', function() {
-  canvasPosition = canvas.getBoundingClientRect();
-})
