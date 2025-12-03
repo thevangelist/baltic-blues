@@ -3,7 +3,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build && touch dist/.nojekyll",
+    "build": "parcel build --public-url /baltic-blues/ && touch dist/.nojekyll",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
