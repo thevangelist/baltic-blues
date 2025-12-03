@@ -3,7 +3,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build",
+    "build": "parcel build && touch dist/.nojekyll",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
