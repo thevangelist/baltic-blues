@@ -10,3 +10,9 @@ dist
 
 # node-waf configuration
 node_modules
+
+# macOS
+.DS_Store
+
+# Claude Code
+.claude

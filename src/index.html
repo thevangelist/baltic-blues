@@ -24,43 +24,101 @@
   <link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap" rel="stylesheet">
 </head>
 <body class="bg-dark-1">
-  <label class="inline-flex items-center cursor-pointer">
-    <input type="checkbox" value="" class="sr-only peer" id="mute">
-    <div class="relative w-11 h-6 bg-blue-1 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#568099]"></div>
-    <span class="ms-3 text-sm font-medium text-blue-1 dark:text-gray-300">Mute audio</span>
-  </label>
-  <h1 class="text-7xl py-10 text-orange-1 uppercase">Baltic Blues</h1>
-  <p class="text-sm text-info-2 leading-snug italic font-sans text-center max-w-full w-80 py-5">
-    Slip into the shadows of the Baltic Sea<br>
-    as a daring captain on a secret mission.<br><br>
-    Your goal?<br>
-    Cut undersea cables<br>
-    while your anchor drags along the sea floor,<br>
-    all without being spotted<br>
-    by vigilant patrols.<br><br>
-    Keep your anchor up<br>
-    when patrols are close by<br>
-    to avoid detection.<br>
-    Reel your anchor in<br>
-    to stay undetected.<br><br>
-    Stealth, precision, and strategy<br>
-    are your only allies.
-  </p>
-  <div class="relative w-[800px] h-[500px]">
-    <canvas id="game-canvas"></canvas>
-    <div id="start" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex justify-center items-center">
-      <button class="uppercase bg-orange-1 text-black font-bold py-4 px-8 text-3xl" id="play">Play</button>
+  <div class="header-section">
+    <h1 class="game-title">Baltic Blues</h1>
+    <p class="game-subtitle">Baltic Sea, 2025 • Classified Operation</p>
+  </div>
+
+  <!-- Bento Box Layout -->
+  <div class="bento-container">
+    <!-- Main Game Canvas - Left Side -->
+    <div class="bento-game">
+      <canvas id="game-canvas"></canvas>
+    <div id="start" class="absolute top-0 left-0 w-full h-full game-overlay flex flex-col justify-center items-center">
+      <div class="overlay-badge mb-6">CLASSIFIED OPERATION</div>
+      <button class="game-btn game-btn-primary" id="play">▶ Begin Mission</button>
     </div>
-    <div id="restart" class="absolute top-0 left-0 w-full h-full bg-black opacity-90 flex flex-col justify-center items-center">
-      <p class="text-xl uppercase text-info-2 py-2">Game over!</p>
-      <button class="uppercase bg-orange-1 text-black font-bold py-4 px-8 text-3xl" id="replay">Replay</button>
+    <div id="restart" class="absolute top-0 left-0 w-full h-full game-overlay flex flex-col justify-center items-center">
+      <p class="overlay-title text-red-1 mb-3" id="restart-title">MISSION COMPROMISED</p>
+      <p class="overlay-subtitle mb-8" id="restart-message">You were detected by patrol vessels</p>
+      <button class="game-btn game-btn-primary" id="replay">↻ Retry</button>
+    </div>
+    <div id="success" class="absolute top-0 left-0 w-full h-full game-overlay flex flex-col justify-center items-center">
+      <p class="overlay-title text-green-1 mb-3">MISSION COMPLETE</p>
+      <p class="overlay-subtitle-large mb-2" id="success-cable">Critical Cable Severed</p>
+      <p class="overlay-subtitle mb-8">Strategic disruption successful</p>
+      <button class="game-btn game-btn-primary" id="replay-success">↻ New Mission</button>
+    </div>
+      <div id="pause-overlay" class="absolute top-0 left-0 w-full h-full game-overlay hidden flex-col justify-center items-center">
+        <p class="overlay-title text-yellow-1 mb-3">⏸ PAUSED</p>
+        <p class="overlay-subtitle">Press ▶ to resume</p>
+      </div>
+    </div>
+
+    <!-- Right Side Info Cards -->
+    <div class="bento-info">
+      <!-- Mission Brief Card -->
+      <div class="info-card mission-brief-card">
+        <div class="info-card-header">
+          <span class="info-icon">🎯</span>
+          <span class="info-title">Mission</span>
+        </div>
+        <p class="info-text">Sever undersea cables. Evade patrols. Stay undetected.</p>
+      </div>
+
+      <!-- Tactics Grid -->
+      <div class="bento-tactics">
+        <div class="tactic-card">
+          <span class="tactic-icon-small">⚓</span>
+          <strong>Optimal Depth</strong>
+          <p>2-4× seabed depth</p>
+        </div>
+        <div class="tactic-card">
+          <span class="tactic-icon-small">📡</span>
+          <strong>Detection</strong>
+          <p>Raise when patrols near</p>
+        </div>
+        <div class="tactic-card">
+          <span class="tactic-icon-small">⚡</span>
+          <strong>Win Condition</strong>
+          <p>Cut MILITARY/HVDC</p>
+        </div>
+        <div class="tactic-card">
+          <span class="tactic-icon-small">⚓</span>
+          <strong>Two Anchors</strong>
+          <p>Lose both = game over</p>
+        </div>
+      </div>
+
+      <!-- Controls Card -->
+      <div class="info-card controls-card">
+        <div class="info-card-header">
+          <span class="info-icon">⌨️</span>
+          <span class="info-title">Controls</span>
+        </div>
+        <div class="controls-grid">
+          <span>→ Forward</span>
+          <span>← Back</span>
+          <span>↓ Lower</span>
+          <span>↑ Reel</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="font-sans flex gap-5 text-lg">
-    <p>→ Forward</p>
-    <p>← Back</p>
-    <p>↓ Lower anchor</p>
-    <p>↑ Reel anchor</p>
+
+  <!-- Control Panel Below -->
+  <div class="control-panel-bottom">
+    <button id="pause-toggle" class="control-btn pause-btn" title="Pause/Resume Game">
+      <span id="pause-icon">⏸</span>
+    </button>
+    <label class="inline-flex items-center cursor-pointer">
+      <input type="checkbox" value="" class="sr-only peer" id="mute">
+      <div class="relative w-11 h-6 bg-dark-2 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-1 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-info-2 after:border-gray-700 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-2 shadow-md"></div>
+      <span class="ms-3 text-sm font-medium text-info-2">🔇 Mute</span>
+    </label>
+    <button id="fullscreen-toggle" class="control-btn fullscreen-btn">
+      ⛶ Fullscreen
+    </button>
   </div>
   <!-- BG-->
   <audio id="music" src="audio/ambient.wav" loop></audio>
@@ -80,6 +138,7 @@
   <audio id="winch5" src="audio/winch/5.wav"></audio>
   <audio id="winch8" src="audio/winch/8.wav"></audio>
   <audio id="scrape7" src="audio/scrapes/scrape-7.wav"></audio>
+  <audio id="splash" src="audio/splash1.wav"></audio>
   <script type="module" src="game.js" defer></script>
   <script type="module" src="tools.js" defer></script>
 </body>
